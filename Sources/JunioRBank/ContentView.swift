@@ -12,7 +12,3 @@ struct ContentView: View {
             .preferredColorScheme(appearance == "dark" ? .dark : appearance == "light" ? .light : nil)
     }
 }
-
-#Preview {
-    ContentView()
-}

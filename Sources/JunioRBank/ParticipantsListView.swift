@@ -36,14 +36,10 @@ struct ParticipantsListView: View {
                 // Participants list
                 participantsList
             }
-            #if os(iOS)
-            .background(Color(.systemGroupedBackground))
-            #else
-            .background(Color.gray.opacity(0.1))
-            #endif
-            #if os(iOS)
+            .background(Color.gray.opacity(0.05))
+#if os(iOS)
             .navigationBarHidden(true)
-            #endif
+#endif
         }
         .confirmationDialog("Menu", isPresented: $showingMenu) {
             menuButtons
@@ -76,7 +72,7 @@ struct ParticipantsListView: View {
                 
                 Spacer()
                 
-                Button(action: { 
+                Button(action: {
                     withAnimation(.easeInOut(duration: 0.3)) {
                         showingSearch = !showingSearch
                         if !showingSearch {
@@ -92,11 +88,7 @@ struct ParticipantsListView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
-        #if os(iOS)
-        .background(Color(.systemBackground))
-        #else
         .background(Color.white)
-        #endif
         .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
     }
     
@@ -112,19 +104,11 @@ struct ParticipantsListView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
-        #if os(iOS)
-        .background(Color(.systemGray6))
-        #else
-        .background(Color.gray.opacity(0.2))
-        #endif
+        .background(Color.gray.opacity(0.15))
         .cornerRadius(10)
         .padding(.horizontal, 20)
         .padding(.bottom, 12)
-        #if os(iOS)
-        .background(Color(.systemBackground))
-        #else
         .background(Color.white)
-        #endif
     }
     
     // MARK: - Participants List
@@ -135,9 +119,9 @@ struct ParticipantsListView: View {
                 NavigationLink(value: participant) {
                     ParticipantRowView(participant: participant)
                 }
-                #if !os(Android)
+#if !os(Android)
                 .listRowInsets(EdgeInsets())
-                #endif
+#endif
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
             }
@@ -196,11 +180,7 @@ struct ParticipantRowView: View {
         HStack(spacing: 12) {
             // Avatar
             Circle()
-                #if os(iOS)
-                .fill(participant.photoPath != nil ? Color.blue : Color(.systemGray4))
-                #else
-                .fill(participant.photoPath != nil ? Color.blue : Color.gray.opacity(0.4))
-                #endif
+                .fill(participant.photoPath != nil ? Color.blue : Color.gray.opacity(0.3))
                 .frame(width: 44, height: 44)
                 .overlay {
                     if participant.photoPath != nil {
@@ -261,11 +241,7 @@ struct ParticipantRowView: View {
         }
         .padding(.horizontal, 20)
         .padding(.vertical, 12)
-        #if os(iOS)
-        .background(Color(.systemBackground))
-        #else
         .background(Color.white)
-        #endif
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         .padding(.horizontal, 16)
@@ -296,9 +272,4 @@ struct ParticipantDetailView: View {
         .navigationTitle(participant.displayName)
         .navigationBarTitleDisplayMode(.inline)
     }
-}
-
-#Preview {
-    ParticipantsListView()
-        .environment(CampViewModel())
 }
