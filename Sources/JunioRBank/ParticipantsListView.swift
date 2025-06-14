@@ -119,6 +119,7 @@ struct ParticipantsListView: View {
                 NavigationLink(value: participant) {
                     ParticipantRowView(participant: participant)
                 }
+                .padding(.trailing, 20) // Add padding to the NavigationLink itself
 #if !os(Android)
                 .listRowInsets(EdgeInsets())
 #endif
@@ -177,8 +178,8 @@ struct ParticipantRowView: View {
     let participant: Participant
     
     var body: some View {
-        HStack(spacing: 12) {
-            // Avatar
+        HStack(spacing: 0) {
+            // Avatar - fixed width
             Circle()
                 .fill(participant.photoPath != nil ? Color.blue : Color.gray.opacity(0.3))
                 .frame(width: 44, height: 44)
@@ -194,12 +195,14 @@ struct ParticipantRowView: View {
                             .font(.system(size: 20))
                     }
                 }
+                .frame(width: 60) // Fixed container width for avatar
             
-            // Name and details
+            // Name and details - flexible width (can shrink)
             VStack(alignment: .leading, spacing: 2) {
                 Text(participant.fullName)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.primary)
+                    .lineLimit(1) // Prevent multi-line
                 
                 if !participant.balances.isEmpty {
                     HStack(spacing: 8) {
@@ -215,36 +218,44 @@ struct ParticipantRowView: View {
                                 .foregroundColor(.secondary)
                         }
                     }
+                    .lineLimit(1)
                 }
             }
+            .frame(maxWidth: .infinity, alignment: .leading) // Take remaining space
             
-            Spacer()
-            
-            // Primary balance
+            // Primary balance - fixed width
             if let primaryBalance = participant.primaryBalance {
-                VStack(alignment: .trailing) {
+                VStack(alignment: .trailing, spacing: 2) {
                     Text(primaryBalance.displayAmount)
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(primaryBalance.isNegative ? .red : .primary)
+                        .lineLimit(1)
                     
                     if primaryBalance.currencyCode != "GEL" {
                         Text("~\(String(format: "%.0f", primaryBalance.gelEquivalent)) ₾")
                             .font(.system(size: 12))
                             .foregroundColor(.secondary)
+                            .lineLimit(1)
                     }
                 }
+                .frame(width: 80, alignment: .trailing) // Fixed width for balance
             } else {
                 Text("0 ₾")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(.secondary)
+                    .frame(width: 80, alignment: .trailing) // Fixed width for balance
             }
+            
+            // Space for disclosure arrow - fixed width
+            Color.clear
+                .frame(width: 20) // Reserved space for disclosure arrow
         }
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 16)
         .padding(.vertical, 12)
         .background(Color.white)
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-        .padding(.horizontal, 16)
+        .padding(.horizontal, 12) // Outer margin
         .padding(.vertical, 4)
     }
 }
