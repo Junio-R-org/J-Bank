@@ -10,6 +10,7 @@ import android.app.Application
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.Box
@@ -47,6 +48,11 @@ open class MainActivity: AppCompatActivity {
         logger.info("starting activity")
         UIApplication.launch(this)
         enableEdgeToEdge()
+        
+        // Force white background at window level
+        window.statusBarColor = android.graphics.Color.WHITE
+        window.navigationBarColor = android.graphics.Color.WHITE
+        window.decorView.setBackgroundColor(android.graphics.Color.WHITE)
 
         setContent {
             val saveableStateHolder = rememberSaveableStateHolder()
@@ -125,7 +131,12 @@ internal fun PresentationRootView(context: ComposeContext) {
     val colorScheme = if (isSystemInDarkTheme()) ColorScheme.dark else ColorScheme.light
     PresentationRoot(defaultColorScheme = colorScheme, context = context) { ctx ->
         val contentContext = ctx.content()
-        Box(modifier = ctx.modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Box(
+            modifier = ctx.modifier
+                .fillMaxSize()
+                .background(androidx.compose.ui.graphics.Color.White), // Force white background
+            contentAlignment = Alignment.Center
+        ) {
             JunioRBankRootView().Compose(context = contentContext)
         }
     }

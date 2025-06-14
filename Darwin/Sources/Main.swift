@@ -7,7 +7,7 @@ import JunioRBank
 @main struct AppMain: App {
     @AppDelegateAdaptor(AppMainDelegate.self) var appDelegate
     @Environment(\.scenePhase) private var scenePhase
-
+    
     var body: some Scene {
         WindowGroup {
             JunioRBankRootView()
@@ -40,28 +40,28 @@ typealias AppType = NSApplication
 
 class AppMainDelegate: NSObject, AppMainDelegateBase {
     let application = AppType.shared
-
-    #if canImport(UIKit)
+    
+#if canImport(UIKit)
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         AppDelegate.shared.onStart()
         return true
     }
-
+    
     func applicationWillTerminate(_ application: UIApplication) {
         AppDelegate.shared.onDestroy()
     }
-
+    
     func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         AppDelegate.shared.onLowMemory()
     }
-    #elseif canImport(AppKit)
+#elseif canImport(AppKit)
     func applicationWillFinishLaunching(_ notification: Notification) {
         AppDelegate.shared.onStart()
     }
-
+    
     func applicationWillTerminate(_ application: Notification) {
         AppDelegate.shared.onDestroy()
     }
-    #endif
-
+#endif
+    
 }
