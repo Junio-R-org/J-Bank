@@ -36,8 +36,10 @@ struct ParticipantsListView: View {
                 // Participants list
                 participantsList
             }
-            .background(Color.gray.opacity(0.05))
-#if os(iOS)
+#if os(Android)
+            .background(Color.white)
+#else
+            .background(Color.clear)
             .navigationBarHidden(true)
 #endif
         }
@@ -88,7 +90,11 @@ struct ParticipantsListView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 12)
         }
+#if os(Android)
         .background(Color.white)
+#else
+        .background(Color.clear)
+#endif
         .shadow(color: .black.opacity(0.1), radius: 1, x: 0, y: 1)
     }
     
@@ -104,25 +110,45 @@ struct ParticipantsListView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
-        .background(Color.gray.opacity(0.15))
+        .background(Color.gray.opacity(0.1))
         .cornerRadius(10)
         .padding(.horizontal, 20)
         .padding(.bottom, 12)
+#if os(Android)
         .background(Color.white)
+#else
+        .background(Color.clear)
+#endif
     }
     
     // MARK: - Participants List
     
     private var participantsList: some View {
+#if os(Android)
+        // Use a custom ScrollView instead of List on Android to avoid red background
+        ScrollView {
+            LazyVStack(spacing: 4) {
+                ForEach(filteredParticipants) { participant in
+                    NavigationLink(value: participant) {
+                        ParticipantRowView(participant: participant)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 12)
+        }
+        .background(Color.white)
+        .navigationDestination(for: Participant.self) { participant in
+            ParticipantDetailView(participant: participant)
+        }
+#else
         List {
             ForEach(filteredParticipants) { participant in
                 NavigationLink(value: participant) {
                     ParticipantRowView(participant: participant)
                 }
-                .padding(.trailing, 20) // Add padding to the NavigationLink itself
-#if !os(Android)
+                .padding(.trailing, 20)
                 .listRowInsets(EdgeInsets())
-#endif
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
             }
@@ -130,9 +156,11 @@ struct ParticipantsListView: View {
         }
         .listStyle(.plain)
         .scrollContentBackground(.hidden)
+        .background(Color.clear)
         .navigationDestination(for: Participant.self) { participant in
             ParticipantDetailView(participant: participant)
         }
+#endif
     }
     
     // MARK: - Menu
@@ -252,7 +280,11 @@ struct ParticipantRowView: View {
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 12)
+#if os(Android)
         .background(Color.white)
+#else
+        .background(Color.clear)
+#endif
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
         .padding(.horizontal, 12) // Outer margin
@@ -280,6 +312,11 @@ struct ParticipantDetailView: View {
             
             Spacer()
         }
+#if os(Android)
+        .background(Color.white)
+#else
+        .background(Color.clear)
+#endif
         .navigationTitle(participant.displayName)
         .navigationBarTitleDisplayMode(.inline)
     }
