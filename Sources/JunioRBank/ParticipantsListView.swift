@@ -230,7 +230,7 @@ struct ParticipantRowView: View {
                 Text(participant.fullName)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.primary)
-                    .lineLimit(1) // Prevent multi-line
+                    .lineLimit(1)
                 
                 if !participant.balances.isEmpty {
                     HStack(spacing: 8) {
@@ -273,12 +273,13 @@ struct ParticipantRowView: View {
                     .foregroundColor(.secondary)
                     .frame(width: 80, alignment: .trailing) // Fixed width for balance
             }
-            
-            // Space for disclosure arrow - fixed width
-            Color.clear
-                .frame(width: 20) // Reserved space for disclosure arrow
+#if os(Android)
+            Image(systemName: "chevron.right")
+                .foregroundColor(.secondary)
+                .font(.system(size: 14, weight: .medium))
+                .frame(width: 20)
+#endif
         }
-        .padding(.horizontal, 16)
         .padding(.vertical, 12)
 #if os(Android)
         .background(Color.white)
@@ -287,7 +288,6 @@ struct ParticipantRowView: View {
 #endif
         .cornerRadius(12)
         .shadow(color: .black.opacity(0.05), radius: 2, x: 0, y: 1)
-        .padding(.horizontal, 12) // Outer margin
         .padding(.vertical, 4)
     }
 }
