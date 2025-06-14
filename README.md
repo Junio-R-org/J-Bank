@@ -1,7 +1,47 @@
 # JunioRBank
 
+J-Bank is a mobile application designed for simplified and partially automated cash accounting when issuing/exchanging cash abroad, particularly for groups of traveling students.
+
 This is a free [Skip](https://skip.tools) dual-platform app project.
 It builds a native app for both iOS and Android.
+
+## Status
+
+At the moment, the UI of participant screen list is implemented.
+
+## TODO
+
+### Core Features
+- [ ] CSV import from email attachments
+- [ ] Participant detail view with transaction history
+- [ ] Transaction recording (receipts/deposits)
+- [ ] Currency conversion with custom exchange rates
+- [ ] Photo capture for participants
+- [ ] Export functionality to CSV via email
+
+### Screens to Implement
+- [x] **Window 1**: Main participant list screen
+- [ ] **Window 2**: Personal card/operations screen
+- [ ] **Window 3**: Additional functions menu
+- [ ] **Window 4**: Add shared expense screen
+- [ ] **Window 5**: Add participant screen
+- [ ] **Window 6**: Settings screen
+
+### Features by Priority
+1. **High Priority**
+   - [ ] Participant transaction management
+   - [ ] Currency conversion system
+   - [ ] CSV data import/export
+   
+2. **Medium Priority**
+   - [ ] Shared expense distribution
+   - [ ] Participant photo management
+   - [ ] Search functionality
+   
+3. **Low Priority**
+   - [ ] Participant deletion (swipe gesture)
+   - [ ] Settings persistence
+   - [ ] UI/UX improvements
 
 ## Building
 
